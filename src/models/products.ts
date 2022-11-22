@@ -4,10 +4,11 @@ export type Product = {
     id: number;
     name: string;
     price: number;
+    quantity: number;
 }
 
 const insertProduct = async (product: Product) => { // informa se vai passar algum parametro
-    await dbQuery('INSERT INTO product (name, price) VALUES(?,?)', [product.name, product.price])
+    await dbQuery('INSERT INTO product (name, price, quantity) VALUES(?,?,?)', [product.name, product.price,product.quantity])
     let retorno = await dbQuery(`SELECT seq AS Id FROM sqlite_sequence WHERE name = 'product'`);
     return getProduct(retorno[0].Id);
 }
@@ -23,7 +24,7 @@ const getProduct = async (id: number) => {
 }
 
 const updateProduct = async (product: Product) => { // informa se vai passar algum parametro
-    await dbQuery('UPDATE product SET name = ?, price = ? WHERE id = ?', [product.name, product.price, product.id])
+    await dbQuery('UPDATE product SET name = ?, price = ?, quantity = ? WHERE id = ?', [product.name, product.price, product.quantity, product.id])
     return getProduct(product.id);
 }
 

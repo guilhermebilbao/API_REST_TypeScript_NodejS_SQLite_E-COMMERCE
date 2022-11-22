@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Product, productModel } from "../models/products";
-import { badRequest, internalServerError, notFound, ok, validateNumber } from "../services/util";
+import { badRequest, internalServerError, notFound, ok, validateNumber, validateNumberNatural } from "../services/util";
 
 const insertProduct = (req: Request, res: Response) => {
 
@@ -13,7 +13,12 @@ const insertProduct = (req: Request, res: Response) => {
             return badRequest(res, "Informe o nome do produto");
 
         if(!validateNumber(product.price))
-            return badRequest(res, 'Informe o preço')
+            return badRequest(res, 'Informe o preço');
+
+        if(!validateNumberNatural(product.quantity)){
+            return badRequest(res, 'Informe a quantidade');
+        }
+        
     }
     const product = req.body.product as Product;
     return productModel.insertProduct(product)

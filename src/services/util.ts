@@ -14,3 +14,5 @@ export const internalServerError = (res: Response, err: Error) =>
     })
 
 export const validateNumber = (num: any) => parseFloat(num) > 0
+
+export const validateNumberNatural = (num: any) => parseFloat(num) >= 0
